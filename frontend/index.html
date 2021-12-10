@@ -40,7 +40,8 @@
                     <button onclick="addProduct()">Add Product</button><br>
 
                     <button onclick="seeAllProd()" >See all products</button>
-                
+                    
+                    <button onclick="updateProd()" >Update Product</button>
                 
                 
                 </div>
@@ -107,6 +108,38 @@
     }
 
 
+    async function updateProd(){
+
+        let upData = {
+
+            
+            name:document.getElementById("name").value,
+            price:document.getElementById("price").value
+
+
+        }
+
+            let id =  document.getElementById("id").value;
+            
+        let upRes = await fetch(`http://127.0.0.1:5000/api/products/${id}`,{
+
+            method:"PUT",
+            body: JSON.stringify(upData),
+
+            headers:{
+                "Content-Type": "application/json",
+            }
+
+        });
+
+        let upD = await upRes.json();
+
+        console.log(upD);
+
+    }
+
+
+
     async function deleteProduct(){
 
         const id = document.getElementById("delete_id").value
@@ -131,7 +164,8 @@
 
 
     async function seeAllProd(){
-
+        let prodA = document.getElementById("allProducts");
+        prodA.textContent = null;
         let prod = await fetch("http://127.0.0.1:5000/api/products");
 
         let allData = await prod.json();
@@ -146,7 +180,7 @@
             let price = prod.price;
             let id = prod.id;
 
-        let prodA = document.getElementById("allProducts");
+        
 
             let Div = document.createElement("div");
             Div.style.border = "1px solid red";
